@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ruta Segura: Trujillo</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <main id="juego">
+    <div id="columna">
+
+      <!-- Escenario: lienzo + HUD + controles táctiles -->
+      <div id="escenario">
+        <canvas id="lienzo" width="640" height="360" aria-label="Escena del juego"></canvas>
+
+        <div id="hud">
+          <div class="hud-bloque">
+            <span id="hud-fase" data-fase="mañana">Mañana</span>
+            <span id="hud-decision">Decisión 1 de 7</span>
+          </div>
+          <div class="hud-bloque">
+            <img id="hud-celular" alt="Celular" width="24" height="24">
+            <div id="hud-seguridad" title="Seguridad">
+              <div id="hud-seguridad-barra" class="alta"></div>
+            </div>
+            <span id="hud-seguridad-valor">100</span>
+          </div>
+        </div>
+
+        <div id="controles-tactiles">
+          <button id="btn-izq" type="button" aria-label="Caminar a la izquierda">◀</button>
+          <button id="btn-der" type="button" aria-label="Caminar a la derecha">▶</button>
+        </div>
+      </div>
+
+      <!-- Panel inferior: espera, decisión o retroalimentación -->
+      <section id="panel">
+        <div id="panel-vacio">
+          Camina con <strong>▶</strong> o <strong>D</strong> hasta el signo de alerta <strong>!</strong> para continuar.
+        </div>
+
+        <div id="panel-decision" hidden>
+          <div id="temporizador"><div id="temporizador-barra"></div></div>
+          <p id="situacion"></p>
+          <div id="opciones"></div>
+        </div>
+
+        <div id="panel-feedback" hidden>
+          <h2 id="fb-titulo"></h2>
+          <p id="fb-consecuencia"></p>
+          <p id="fb-explicacion" class="explicacion"></p>
+          <p id="fb-seguridad" class="seguridad"></p>
+          <button id="btn-continuar" type="button">Continuar ⏎</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Pantalla de título -->
+  <section id="pantalla-titulo" class="pantalla" hidden>
+    <div class="tarjeta">
+      <h1>Ruta Segura: Trujillo</h1>
+      <p>Acompaña a Leo durante un día completo. Cada decisión cambia lo que ocurre después y define uno de tres finales.</p>
+      <ul class="controles">
+        <li><strong>Caminar:</strong> flechas ◀ ▶ o teclas A / D (en celular, botones en pantalla).</li>
+        <li><strong>Decidir:</strong> clic o toque, o teclas 1, 2 y 3. Tienes 10 segundos por decisión.</li>
+        <li><strong>Continuar:</strong> botón o tecla Enter.</li>
+      </ul>
+      <button id="btn-comenzar" type="button">Comenzar</button>
+      <p id="aviso-graficos" class="aviso"></p>
+    </div>
+  </section>
+
+  <!-- Pantalla final -->
+  <section id="pantalla-final" class="pantalla" hidden>
+    <div class="tarjeta">
+      <img id="final-imagen" alt="" width="320" height="180">
+      <h1 id="final-titulo"></h1>
+      <div id="final-estrellas"></div>
+      <p id="final-texto"></p>
+      <p id="final-mensaje" class="mensaje"></p>
+
+      <h2>Resumen de tus decisiones</h2>
+      <ol id="final-resumen"></ol>
+
+      <h2>Cartilla de prevención</h2>
+      <ul id="final-cartilla"></ul>
+      <p class="aviso">En una emergencia, llama al 105 (Policía Nacional del Perú).</p>
+
+      <button id="btn-reiniciar" type="button">Jugar de nuevo</button>
+    </div>
+  </section>
+
+  <!-- Panel de depuración (tecla F2) -->
+  <aside id="panel-debug" hidden></aside>
+
+  <!-- Orden de carga: configuración → catálogo → utilidades → datos → motor → mundo → interfaz → juego -->
+  <script src="js/config.js"></script>
+  <script src="js/assets-manifest.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/datos-historia.js"></script>
+  <script src="js/estado.js"></script>
+  <script src="js/historia.js"></script>
+  <script src="js/escenas.js"></script>
+  <script src="js/mundo.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/juego.js"></script>
+</body>
+</html>

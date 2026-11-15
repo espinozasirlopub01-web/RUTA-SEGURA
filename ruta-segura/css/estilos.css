@@ -1,0 +1,252 @@
+/* ===== Ruta Segura: Trujillo — estilos ===== */
+:root {
+  --fondo: #141b2e;
+  --panel: #1F2A44;
+  --panel-claro: #27345A;
+  --texto: #FFFFFF;
+  --acento: #F2C94C;
+  --ok: #2ECC71;
+  --medio: #F1C40F;
+  --mal: #E74C3C;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+#juego {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+/* El ancho se limita para que lienzo + panel quepan en la altura de la ventana */
+#columna {
+  width: min(100%, calc((100vh - 280px) * 16 / 9));
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------- Escenario ---------- */
+#escenario {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 3px solid #0b1020;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#lienzo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ---------- HUD ---------- */
+#hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,0));
+  font-size: clamp(10px, 2.2vw, 14px);
+  visibility: hidden;
+}
+#juego.jugando #hud { visibility: visible; }
+
+.hud-bloque { display: flex; align-items: center; gap: 8px; }
+
+#hud-fase {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #1b1b1b;
+  background: #8FD3F4;
+}
+#hud-fase[data-fase="tarde"] { background: #F4A261; }
+#hud-fase[data-fase="noche"] { background: #B7A5E6; }
+
+#hud-celular { image-rendering: pixelated; width: 24px; height: 24px; }
+
+#hud-seguridad {
+  width: clamp(70px, 16vw, 140px);
+  height: 12px;
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 6px;
+  overflow: hidden;
+}
+#hud-seguridad-barra { height: 100%; transition: width .4s, background .4s; }
+#hud-seguridad-barra.alta  { background: var(--ok); }
+#hud-seguridad-barra.media { background: var(--medio); }
+#hud-seguridad-barra.baja  { background: var(--mal); }
+
+/* ---------- Controles táctiles ---------- */
+#controles-tactiles {
+  position: absolute;
+  left: 8px; right: 8px; bottom: 8px;
+  display: none;
+  justify-content: space-between;
+  pointer-events: none;
+  visibility: hidden;
+}
+#juego.jugando #controles-tactiles { visibility: visible; }
+@media (pointer: coarse) { #controles-tactiles { display: flex; } }
+#controles-tactiles button {
+  pointer-events: auto;
+  width: 56px; height: 56px;
+  border: 2px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  background: rgba(31,42,68,.7);
+  color: #fff;
+  font-size: 22px;
+  touch-action: none;
+}
+
+/* ---------- Panel inferior ---------- */
+#panel {
+  min-height: 200px;
+  background: var(--panel);
+  border: 3px solid #0b1020;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+#panel-vacio { color: #cfd6e6; text-align: center; padding-top: 40px; }
+
+#temporizador {
+  height: 8px;
+  background: rgba(255,255,255,.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+#temporizador-barra { height: 100%; width: 100%; background: var(--acento); }
+#temporizador-barra.urgente { background: var(--mal); }
+
+#situacion { margin: 0 0 10px; font-size: 1.05rem; line-height: 1.4; }
+
+#opciones { display: flex; flex-direction: column; gap: 8px; }
+
+button { font-family: inherit; }
+
+.opcion {
+  text-align: left;
+  padding: 10px 12px;
+  border: 2px solid #3a4b7a;
+  border-radius: 8px;
+  background: var(--panel-claro);
+  color: var(--texto);
+  font-size: .98rem;
+  cursor: pointer;
+}
+.opcion:hover, .opcion:focus-visible { border-color: var(--acento); outline: none; }
+.tecla {
+  display: inline-block;
+  min-width: 22px;
+  padding: 0 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  background: #0b1020;
+  color: var(--acento);
+  text-align: center;
+  font-weight: 700;
+}
+
+#panel-feedback { border-left: 6px solid var(--medio); padding-left: 12px; }
+#panel-feedback.seguro { border-color: var(--ok); }
+#panel-feedback.riesgo { border-color: var(--medio); }
+#panel-feedback.grave  { border-color: var(--mal); }
+#panel-feedback h2 { margin: 0 0 6px; font-size: 1.1rem; }
+#panel-feedback p { margin: 0 0 8px; line-height: 1.4; }
+.explicacion { color: #dbe4ff; }
+.seguridad { font-weight: 700; }
+
+#btn-continuar, #btn-comenzar, #btn-reiniciar {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--acento);
+  color: #1b1b1b;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ---------- Pantallas de título y final ---------- */
+.pantalla {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  background: #0b1020 center / cover no-repeat;
+  image-rendering: pixelated;
+}
+.tarjeta {
+  width: 100%;
+  max-width: 640px;
+  margin: auto;
+  padding: 18px;
+  border-radius: 10px;
+  background: rgba(31, 42, 68, .94);
+  border: 2px solid #0b1020;
+}
+.tarjeta h1 { margin: 0 0 8px; font-size: 1.6rem; }
+.tarjeta h2 { margin: 16px 0 6px; font-size: 1.05rem; color: var(--acento); }
+.controles { padding-left: 18px; line-height: 1.5; }
+.aviso { font-size: .85rem; color: #aeb8d4; }
+.mensaje { font-weight: 700; color: var(--acento); }
+
+#final-imagen {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto 10px;
+  image-rendering: pixelated;
+  border-radius: 6px;
+}
+#final-titulo { text-align: center; }
+#final-estrellas { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
+.estrella { width: 24px; height: 24px; image-rendering: pixelated; }
+
+#final-resumen { padding-left: 20px; }
+#final-resumen li { margin-bottom: 8px; line-height: 1.35; border-left: 4px solid var(--ok); padding-left: 8px; list-style-position: inside; }
+#final-resumen li.riesgo { border-color: var(--medio); }
+#final-resumen li.grave  { border-color: var(--mal); }
+#final-resumen .mejor { color: #bfe8c9; font-size: .92rem; }
+
+/* ---------- Depuración ---------- */
+#panel-debug {
+  position: fixed;
+  top: 8px; right: 8px;
+  z-index: 20;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 8px;
+  background: rgba(0,0,0,.85);
+  font: 11px/1.4 monospace;
+  border-radius: 6px;
+}
+#panel-debug .temporal   { color: #F1C40F; }
+#panel-debug .definitivo { color: #2ECC71; }
+#panel-debug .aviso      { color: #E74C3C; }
